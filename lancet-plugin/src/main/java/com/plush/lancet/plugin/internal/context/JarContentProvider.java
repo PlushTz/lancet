@@ -1,0 +1,48 @@
+package com.plush.lancet.plugin.internal.context;
+
+import com.android.build.api.transform.JarInput;
+import com.android.build.api.transform.QualifiedContent;
+
+import org.gradle.internal.impldep.com.google.common.io.ByteStreams;
+import org.gradle.internal.impldep.org.apache.commons.io.IOUtils;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+/**
+ * Desc:
+ *
+ * @author lijt
+ * Created on 2025/10/29
+ * Email: lijt@eetrust.com
+ */
+public class JarContentProvider extends TargetedQualifiedContentProvider {
+    @Override
+    public void forEach(QualifiedContent content, ClassFetcher processor) throws IOException {
+        forActualInput((JarInput) content, processor);
+    }
+
+    private void forActualInput(JarInput jarInput, ClassFetcher processor) throws IOException {
+        if (processor.onStart(jarInput)) {
+            ZipInputStream zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(jarInput.getFile())));
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.isDirectory()) {
+                    continue;
+                }
+                byte[] data = ByteStreams.toByteArray(zis);
+                processor.onClassFetch(jarInput, jarInput.getStatus(), entry.getName(), data);
+            }
+            IOUtils.closeQuietly(zis);
+        }
+        processor.onComplete(jarInput);
+    }
+
+    @Override
+    public boolean accepted(QualifiedContent qualifiedContent) {
+        return qualifiedContent instanceof JarInput;
+    }
+}

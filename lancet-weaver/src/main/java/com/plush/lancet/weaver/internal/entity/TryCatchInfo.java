@@ -1,0 +1,41 @@
+package com.plush.lancet.weaver.internal.entity;
+
+import com.google.common.base.Strings;
+
+import java.util.regex.Pattern;
+
+/**
+ * Desc:
+ *
+ * @author lijt
+ * Created on 2025/10/29
+ * Email: lijt@eetrust.com
+ */
+public class TryCatchInfo {
+    public String regex;
+    public String myClass;
+    public String myMethod;
+    public String methodDescriptor;
+
+    private Pattern pattern;
+
+    public TryCatchInfo(String regex, String myClass, String myMethod, String methodDescriptor) {
+        this.regex = regex;
+        this.myClass = myClass;
+        this.myMethod = myMethod;
+        this.methodDescriptor = methodDescriptor;
+
+        if (!Strings.isNullOrEmpty(regex)) {
+            this.pattern = Pattern.compile(regex);
+        }
+    }
+
+    public boolean match(String className) {
+        return pattern == null || pattern.matcher(className).matches();
+    }
+
+    @Override
+    public String toString() {
+        return "TryCatchInfo{" + "regex='" + regex + '\'' + ", myClass='" + myClass + '\'' + ", myMethod='" + myMethod + '\'' + ", methodDescriptor='" + methodDescriptor + '\'' + ", pattern=" + pattern + '}';
+    }
+}

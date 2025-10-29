@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation libs.gson
+    implementation libs.com.android.tools.common
+    implementation project(':lancet-weaver')
+    implementation project(':lancet-base')
+    implementation gradleApi()
+    compileOnly libs.com.android.tools.build.gradle
+    testImplementation gradleTestKit()
+    testImplementation libs.junit
+}
+java {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+}
