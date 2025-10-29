@@ -6,6 +6,7 @@ import com.plush.lancet.weaver.internal.graph.ClassEntity;
 import com.plush.lancet.weaver.internal.graph.FieldEntity;
 import com.plush.lancet.weaver.internal.graph.Graph;
 import com.plush.lancet.weaver.internal.log.Log;
+import com.plush.lancet.weaver.internal.parser.AopMethodAdjuster;
 import com.plush.lancet.weaver.internal.utils.Bitset;
 import com.plush.lancet.weaver.internal.utils.PrimitiveUtil;
 import com.plush.lancet.weaver.internal.utils.TypeUtil;

@@ -1,5 +1,7 @@
 package com.plush.lancet.plugin;
 
+import com.plush.lancet.weaver.internal.asm.ClassTransform;
+
 import java.io.File;
 
 /**
